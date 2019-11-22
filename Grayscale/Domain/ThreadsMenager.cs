@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.InteropServices;
 
 namespace Grayscale.ThreadsMenager
 {
@@ -17,6 +18,9 @@ namespace Grayscale.ThreadsMenager
         int _addedElements;
         List<Thread> _threads = new List<Thread>();
         List<Vector<byte>> _pixelsList = new List<Vector<byte>>();
+
+        [DllImport("Grayscale_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe void AddNumbers(int a, int b, int* summ);
 
         public void SplitByteArrayToVectors(byte[] array)
         {
@@ -78,12 +82,21 @@ namespace Grayscale.ThreadsMenager
 
             return returnData;
         }
-        public void CreateThreadsArray()
+        public unsafe void CreateThreadsArray()
         {
-            for(int i = 0; i < _pixelsList.Count; i++)
+            int* dupsko = (int*)GetDupsko();
+            AddNumbers(5, 7, dupsko);
+            int check = (*dupsko);
+
+            for (int i = 0; i < _pixelsList.Count; i++)
             {
                 _pixelsList[i] = MakeGrayScale(_pixelsList[i]);
             }
+        }
+
+        private static unsafe int GetDupsko()
+        {
+            return new int();
         }
 
         /// <summary>
@@ -91,7 +104,7 @@ namespace Grayscale.ThreadsMenager
         /// </summary>
         /// <param name="vector"></param>
         /// <returns></returns>
-        private Vector<byte> MakeGrayScale(Vector<byte> vector)
+        private unsafe Vector<byte> MakeGrayScale(Vector<byte> vector)
         {
             byte[] ar = new byte[16] { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 };
             byte[] ag = new byte[16] { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 };
