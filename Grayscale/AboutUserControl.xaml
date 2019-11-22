@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Grayscale.AboutUserControl"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Grayscale"
+             mc:Ignorable="d" 
+             Height="auto" Width="auto">
+    <Grid>
+        <materialDesign:TransitioningContent x:Name="MenuSliderTransition" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft, Duration=0:0:0.350}">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Height="auto" Margin="0,0,0,0" TextWrapping="Wrap" Width="500" FontSize="18" FontFamily="Segoe UI Light" Foreground="#FFCDCBCF">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pellentesque urna ut nisl efficitur scelerisque. 
+                    Proin molestie malesuada mattis. Aliquam sed tortor non nibh dapibus ultrices. 
+                    Etiam vitae mauris nec diam porttitor lacinia. Donec ac rutrum mi. 
+                    Praesent turpis leo, vulputate eget vestibulum quis, porttitor id sem. 
+                    Duis commodo tellus neque, sed elementum diam consectetur at. 
+                    Pellentesque vitae elit ipsum. In vestibulum ante dolor, sed dapibus felis auctor id. Proin eleifend egestas quam quis tincidunt. 
+                    Donec consectetur sollicitudin magna, id rutrum tellus venenatis quis. Pellentesque sed ultricies turpis, at tincidunt libero. 
+                    Suspendisse ex mauris, fermentum sagittis tempus sed, maximus nec justo.
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Right" Text="Fabian Berda" Height="auto" FontFamily="Segoe UI Semilight" FontSize="22" Margin="0,0,15,0" RenderTransformOrigin="0.513,0.487" Foreground="#FFCDCBCF"/>
+            </StackPanel>
+        </materialDesign:TransitioningContent>
+    </Grid>
+</UserControl>
