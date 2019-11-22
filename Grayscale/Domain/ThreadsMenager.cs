@@ -80,13 +80,18 @@ namespace Grayscale.ThreadsMenager
         }
         public void CreateThreadsArray()
         {
-            foreach(var element in _pixelsList)
+            for(int i = 0; i < _pixelsList.Count; i++)
             {
-                MakeGrayScale(element);
+                _pixelsList[i] = MakeGrayScale(_pixelsList[i]);
             }
         }
 
-        private void MakeGrayScale(Vector<byte> vector)
+        /// <summary>
+        /// Spliting 128-bit register to R.G.B channels and return new vector
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        private Vector<byte> MakeGrayScale(Vector<byte> vector)
         {
             byte[] ar = new byte[16] { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 };
             byte[] ag = new byte[16] { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 };
@@ -107,7 +112,8 @@ namespace Grayscale.ThreadsMenager
             vg = vg * vector;
             vb = vb * vector;
 
-            vector = (vr + vg + vb);
+            Vector<byte> ret = (vr + vg + vb);
+            return ret;
         }
         private byte MakeGrayValueForPixels(byte blue, byte green, byte red)
         {
