@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.InteropServices;
 
 namespace Grayscale.ThreadsMenager
 {
@@ -17,6 +18,9 @@ namespace Grayscale.ThreadsMenager
         int _addedElements;
         List<Thread> _threads = new List<Thread>();
         List<Vector<byte>> _pixelsList = new List<Vector<byte>>();
+
+        [DllImport("Grayscale_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe void AddNumbers(int a, int b, int* summ);
 
         public void SplitByteArrayToVectors(byte[] array)
         {
@@ -78,15 +82,33 @@ namespace Grayscale.ThreadsMenager
 
             return returnData;
         }
-        public void CreateThreadsArray()
+
+        /// <summary>
+        /// Unsafe because using pointers are necessary.
+        /// </summary>
+        public unsafe void CreateThreadsArray()
         {
-            foreach(var element in _pixelsList)
+            int* dupsko = (int*)GetDupsko();
+            AddNumbers(5, 7, dupsko);
+            int check = (*dupsko);
+
+            for (int i = 0; i < _pixelsList.Count; i++)
             {
-                MakeGrayScale(element);
+                _pixelsList[i] = MakeGrayScale(_pixelsList[i]);
             }
         }
 
-        private void MakeGrayScale(Vector<byte> vector)
+        private static unsafe int GetDupsko()
+        {
+            return new int();
+        }
+
+        /// <summary>
+        /// Spliting 128-bit register to R.G.B channels and return new vector
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
+        private unsafe Vector<byte> MakeGrayScale(Vector<byte> vector)
         {
             byte[] ar = new byte[16] { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 };
             byte[] ag = new byte[16] { 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0 };
@@ -107,7 +129,8 @@ namespace Grayscale.ThreadsMenager
             vg = vg * vector;
             vb = vb * vector;
 
-            vector = (vr + vg + vb);
+            Vector<byte> ret = (vr + vg + vb);
+            return ret;
         }
         private byte MakeGrayValueForPixels(byte blue, byte green, byte red)
         {
