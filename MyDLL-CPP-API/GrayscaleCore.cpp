@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "GrayscaleCore.h"
 
-namespace ManagedCPP_DLL 
+namespace GrayscaleCppManager 
 {
-	GrayscaleCore::GrayscaleCore() : ManagedObject(new GrayscaleCPPDLL::GrayscaleCore())
+	// Constructor must be always declared.
+	GrayscaleConverterCpp::GrayscaleConverterCpp() : ManagedObject(new CppGrayscaleCore::GrayscaleConverterCpp())
 	{
 	}
-	int GrayscaleCore::TestInitialize(int x, int y)
+
+	// All functions here using static convertion functions from main Manager class "ManagerObject.h" if its necessary.
+	int GrayscaleConverterCpp::TestInitialize(int x, int y)
 	{
-		// m_instancje contains instance of current using ubject i.e: "GrayscaleCore" from namespace "GrayscaleCPPDLL".
+		// Calling origianl function.
 		return _Instance->TestInitialize(x, y);
 	}
 }

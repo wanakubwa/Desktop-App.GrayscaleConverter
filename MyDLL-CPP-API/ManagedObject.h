@@ -1,11 +1,14 @@
 #pragma once
-namespace ManagedCPP_DLL 
+namespace GrayscaleCppManager 
 {
-
+	/// Class using for wraping all cpp cores into one class included destructor and garbage collector finalizer.
+	/// This is tamplate can contain any class from "GrayscaleCppCore".
+	/// using also to connect c# data to cpp data t.m conatins conversion static methods.
 	template<class T>
 	public ref class ManagedObject
 	{
 	protected:
+		/// Instance of called in c# object.
 		T* _Instance;
 	public:
 		ManagedObject(T* instance)
@@ -13,7 +16,7 @@ namespace ManagedCPP_DLL
 		{
 		}
 
-		// Destructor to clear after use.
+		/// Destructor to clear after use.
 		virtual ~ManagedObject()
 		{
 			if (_Instance != nullptr)
@@ -22,7 +25,7 @@ namespace ManagedCPP_DLL
 			}
 		}
 
-		// Finalizer for garbage colletor purpose.
+		/// Finalizer for garbage colletor purpose.
 		!ManagedObject()
 		{
 			if (_Instance != nullptr)
@@ -31,7 +34,7 @@ namespace ManagedCPP_DLL
 			}
 		}
 		
-		// Getter to get instance of actual menaged object.
+		/// Getter to get instance of actual menaged object.
 		T* GetInstance()
 		{
 			return _Instance;

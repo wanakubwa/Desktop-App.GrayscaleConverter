@@ -23,6 +23,7 @@
     <ProjectGuid>{37E72795-99DB-4B82-AC2A-4EAC723DBBCE}</ProjectGuid>
     <RootNamespace>CPPCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>GrayscaleCppCore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

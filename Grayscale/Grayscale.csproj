@@ -163,7 +163,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyDLL-CPP-API\MyDLL-CPP-API.vcxproj">
       <Project>{3c64646d-8ee4-4871-b17a-40a75029eb69}</Project>
-      <Name>MyCPPDLL</Name>
+      <Name>GrayscaleCppDLL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

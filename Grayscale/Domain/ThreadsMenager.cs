@@ -8,7 +8,7 @@ using System.Numerics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
-using ManagedCPP_DLL;
+using GrayscaleCppManager;
 
 namespace Grayscale.ThreadsMenager
 {
@@ -87,8 +87,8 @@ namespace Grayscale.ThreadsMenager
         public unsafe void CreateThreadsArray()
         {
             // Prototype testing the DLL caling function and return.
-            GrayscaleCore grayscaleCore = new GrayscaleCore();
-            var tmp = grayscaleCore.TestInitialize(5, 10);
+            GrayscaleConverterCpp converterCpp = new GrayscaleConverterCpp();
+            var tmp = converterCpp.TestInitialize(5, 10);
             Console.WriteLine("###########");
             Console.WriteLine(tmp);
 
