@@ -82,6 +82,10 @@ namespace Grayscale.ThreadsMenager
 
             return returnData;
         }
+
+        /// <summary>
+        /// Unsafe because using pointers are necessary.
+        /// </summary>
         public unsafe void CreateThreadsArray()
         {
             int* dupsko = (int*)GetDupsko();

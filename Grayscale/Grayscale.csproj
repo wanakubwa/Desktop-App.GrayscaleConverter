@@ -152,7 +152,7 @@
     <Folder Include="CPP_DLL\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Grayscale_DLL.dll" />
+    <Content Include="CPP_DLL_FILE\Grayscale_DLL.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -165,6 +165,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Grayscale_DLL\Grayscale_DLL\Grayscale_DLL.vcxproj">
+      <Project>{77090aa4-3489-48ee-8ae1-304c611ee494}</Project>
+      <Name>Grayscale_DLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
