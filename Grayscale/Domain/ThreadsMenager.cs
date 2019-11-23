@@ -8,6 +8,7 @@ using System.Numerics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
+using ManagedCPP_DLL;
 
 namespace Grayscale.ThreadsMenager
 {
@@ -18,9 +19,6 @@ namespace Grayscale.ThreadsMenager
         int _addedElements;
         List<Thread> _threads = new List<Thread>();
         List<Vector<byte>> _pixelsList = new List<Vector<byte>>();
-
-        [DllImport("Grayscale_DLL.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe void AddNumbers(int a, int b, int* summ);
 
         public void SplitByteArrayToVectors(byte[] array)
         {
@@ -88,9 +86,11 @@ namespace Grayscale.ThreadsMenager
         /// </summary>
         public unsafe void CreateThreadsArray()
         {
-            int* dupsko = (int*)GetDupsko();
-            AddNumbers(5, 7, dupsko);
-            int check = (*dupsko);
+            // Prototype testing the DLL caling function and return.
+            GrayscaleCore grayscaleCore = new GrayscaleCore();
+            var tmp = grayscaleCore.TestInitialize(5, 10);
+            Console.WriteLine("###########");
+            Console.WriteLine(tmp);
 
             for (int i = 0; i < _pixelsList.Count; i++)
             {
