@@ -94,15 +94,16 @@ namespace Grayscale.ThreadsMenager
         /// <summary>
         /// Unsafe because using pointers are necessary.
         /// </summary>
-        public unsafe void CreateThreadsArray()
+        public void CreateThreadsArray()
         {
-            // Prototype testing the DLL caling function and return.
+            // Create instance of Cpp converter from Dll.
+            // Contains all fonction and manager.
             GrayscaleConverterCpp converterCpp = new GrayscaleConverterCpp();
 
             for (int i = 0; i < _pixelsList.Count; i++)
             {
+                // Calling function from Cpp Dll.
                 converterCpp.MakeGrayScaleAtOneRegisterCpp(_pixelsList[i], 16);
-                //_pixelsList[i] = MakeGrayScale(_pixelsList[i]);
             }
         }
 

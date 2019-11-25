@@ -17,7 +17,6 @@ namespace GrayscaleCppManager
 		// All function must be declared there but using c# data types name.
 		// I.e Entity(int^ array);
 		// int^ must be converted (to pointer to first element in array) by call conversion function declared in manager class.
-
 		void MakeGrayScaleAtOneRegisterCpp(array<Byte>^ src, int size);
 	};
 }

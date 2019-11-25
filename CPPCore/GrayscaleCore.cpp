@@ -3,6 +3,7 @@
 
 namespace CppGrayscaleCore
 {
+	// Converting one 128-bit register to grayscale and replace in source as destination.
 	void GrayscaleConverterCpp::MakeGrayScaleAtOneRegisterCpp(unsigned char * src, int size)
 	{
 		for (int i = 0; i < size; i += 4) {
