@@ -18,21 +18,27 @@ namespace Grayscale.ThreadsMenager
         int _arraySize;
         int _addedElements;
         List<Thread> _threads = new List<Thread>();
-        List<Vector<byte>> _pixelsList = new List<Vector<byte>>();
+        List<byte[]> _pixelsList = new List<byte[]>();
 
-        public void SplitByteArrayToVectors(byte[] array)
+        public void SplitByteArrayToRegisters(byte[] array)
         {
+            // Size of oryginal byte array.
             _arraySize = array.Length;
 
             // Max vector size in bits. (128-bit register)
-            var vectSize = Vector<byte>.Count;
+            //var vectSize = Vector<byte>.Count;
+            var regSize = 16;
 
             // Spliting oryginal vector to chunks by 128-bit each.
             int i = 0;
-            for(i = 0; i< array.Length - vectSize; i += vectSize)
+            for(i = 0; i< array.Length - regSize; i += regSize)
             {
-                var vTmp = new Vector<byte>(array, i);
-                _pixelsList.Add(vTmp);
+                var rTmp = new byte[regSize];
+                Array.Copy(array, i, rTmp, 0, regSize);
+                _pixelsList.Add(rTmp);
+
+                //var vTmp = new Vector<byte>(array, i);
+                //_pixelsList.Add(vTmp);
             }
 
             // Last pixels add to special 128-bit register filled by 0.
@@ -49,13 +55,17 @@ namespace Grayscale.ThreadsMenager
                     subArray[x] = array[i + x];
                 }
 
-                Vector<byte> vRest = new Vector<byte>(subArray);
-                _pixelsList.Add(vRest);
+                //Vector<byte> vRest = new Vector<byte>(subArray);
+                //_pixelsList.Add(vRest);
+
+                _pixelsList.Add(subArray);
             }
         }
-        public byte[] ConvertVectorToByteArray()
+        public byte[] ConvertListToOneByteArray()
         {
             var vectSize = Vector<byte>.Count;
+
+            var regSize = 16;
             byte[] returnData = new byte[_arraySize];
 
             // Setting last element.
@@ -64,7 +74,7 @@ namespace Grayscale.ThreadsMenager
             int i = 0;
             foreach(var element in _pixelsList)
             {
-                if(i < _arraySize - vectSize)
+                if(i < _arraySize - regSize)
                 {
                     element.CopyTo(returnData, i);
                     i += vectSize;
@@ -88,19 +98,11 @@ namespace Grayscale.ThreadsMenager
         {
             // Prototype testing the DLL caling function and return.
             GrayscaleConverterCpp converterCpp = new GrayscaleConverterCpp();
-            var tmp = converterCpp.TestInitialize(5, 10);
-            Console.WriteLine("###########");
-            Console.WriteLine(tmp);
 
             for (int i = 0; i < _pixelsList.Count; i++)
             {
-                _pixelsList[i] = MakeGrayScale(_pixelsList[i]);
+                //_pixelsList[i] = MakeGrayScale(_pixelsList[i]);
             }
-        }
-
-        private static unsafe int GetDupsko()
-        {
-            return new int();
         }
 
         /// <summary>
