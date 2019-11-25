@@ -101,6 +101,7 @@ namespace Grayscale.ThreadsMenager
 
             for (int i = 0; i < _pixelsList.Count; i++)
             {
+                converterCpp.MakeGrayScaleAtOneRegisterCpp(_pixelsList[i], 16);
                 //_pixelsList[i] = MakeGrayScale(_pixelsList[i]);
             }
         }
