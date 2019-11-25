@@ -9,10 +9,10 @@ namespace GrayscaleCppManager
 	}
 
 	// All functions here using static convertion functions from main Manager class "ManagerObject.h" if its necessary.
-	int GrayscaleConverterCpp::TestInitialize(int x, int y)
+	void GrayscaleConverterCpp::MakeGrayScaleAtOneRegisterCpp(array<Byte>^ src , int size)
 	{
 		// Calling origianl function.
-		return _Instance->TestInitialize(x, y);
+		return _Instance->MakeGrayScaleAtOneRegisterCpp(byte_array_conversion(src), size);
 	}
 }
 

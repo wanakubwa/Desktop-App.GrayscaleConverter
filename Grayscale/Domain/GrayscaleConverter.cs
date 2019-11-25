@@ -33,24 +33,12 @@ namespace Grayscale.Domain
             byte[] pixels = new byte[arraySize];
             bitmap.CopyPixels(pixels, _imageStride, 0);
 
-            //// Converting to grayscale algorithm.
-            //int j = 0;
-            //for (int i = 0; i < pixels.Length / 4; i++)
-            //{
-            //    var grayValue = MakeGrayValueForPixels(pixels[j], pixels[j + 1], pixels[j + 2]);
-            //    pixels[j] = grayValue;
-            //    pixels[j + 1] = grayValue;
-            //    pixels[j + 2] = grayValue;
-            //    pixels[j + 3] = pixels[j + 3];
-            //    j += 4;
-            //}
-
             ThreadsMenager.ThreadsMenager threadsMenager = new ThreadsMenager.ThreadsMenager();
             threadsMenager.ThreatsNum = 12;
-            threadsMenager.SplitByteArrayToVectors(pixels);
+            threadsMenager.SplitByteArrayToRegisters(pixels);
             threadsMenager.CreateThreadsArray();
 
-            byte[] test = threadsMenager.ConvertVectorToByteArray();
+            byte[] test = threadsMenager.ConvertListToOneByteArray();
 
             //// Converting byte array to bitmapImage and return.
             //Int32Rect rect = new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
