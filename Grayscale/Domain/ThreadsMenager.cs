@@ -10,9 +10,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
 using GrayscaleCppManager;
 
-namespace Grayscale.ThreadsMenager
+namespace Grayscale.DllMenager
 {
-    class ThreadsMenager
+    class DllManager
     {
         public int ThreatsNum { get; set; } = 0;
         int _arraySize;
@@ -20,13 +20,16 @@ namespace Grayscale.ThreadsMenager
         List<Thread> _threads = new List<Thread>();
         List<byte[]> _pixelsList = new List<byte[]>();
 
+        /// <summary>
+        /// Spliting byte array to many registers 128bit each. And store it into list.
+        /// </summary>
+        /// <param name="array"> Array to split.</param>
         public void SplitByteArrayToRegisters(byte[] array)
         {
-            // Size of oryginal byte array.
+            // Saving size of oryginal byte array.
             _arraySize = array.Length;
 
             // Max vector size in bits. (128-bit register)
-            //var vectSize = Vector<byte>.Count;
             var regSize = 16;
 
             // Spliting oryginal vector to chunks by 128-bit each.
@@ -36,9 +39,6 @@ namespace Grayscale.ThreadsMenager
                 var rTmp = new byte[regSize];
                 Array.Copy(array, i, rTmp, 0, regSize);
                 _pixelsList.Add(rTmp);
-
-                //var vTmp = new Vector<byte>(array, i);
-                //_pixelsList.Add(vTmp);
             }
 
             // Last pixels add to special 128-bit register filled by 0.
@@ -55,16 +55,17 @@ namespace Grayscale.ThreadsMenager
                     subArray[x] = array[i + x];
                 }
 
-                //Vector<byte> vRest = new Vector<byte>(subArray);
-                //_pixelsList.Add(vRest);
-
                 _pixelsList.Add(subArray);
             }
         }
+
+        /// <summary>
+        /// Converting list with 128bit registers to oryginal one byte array.
+        /// Using to get one edited image bit by bit.
+        /// </summary>
+        /// <returns></returns>
         public byte[] ConvertListToOneByteArray()
         {
-            var vectSize = Vector<byte>.Count;
-
             var regSize = 16;
             byte[] returnData = new byte[_arraySize];
 
@@ -77,7 +78,7 @@ namespace Grayscale.ThreadsMenager
                 if(i < _arraySize - regSize)
                 {
                     element.CopyTo(returnData, i);
-                    i += vectSize;
+                    i += regSize;
                 }
             }
 
@@ -85,16 +86,13 @@ namespace Grayscale.ThreadsMenager
             // This '0''s was added manualy to fill last 128-bit register correctly.
             for(int x = 0; x < _addedElements; x++)
             {
-                returnData[x + i] = lastEl[vectSize -1 - x];
+                returnData[x + i] = lastEl[regSize -1 - x];
             }
 
             return returnData;
         }
 
-        /// <summary>
-        /// Unsafe because using pointers are necessary.
-        /// </summary>
-        public void CreateThreadsArray()
+        public void RunConversionProcess()
         {
             // Create instance of Cpp converter from Dll.
             // Contains all fonction and manager.
@@ -108,9 +106,10 @@ namespace Grayscale.ThreadsMenager
         }
 
         /// <summary>
-        /// Spliting 128-bit register to R.G.B channels and return new vector
+        /// Spliting 128-bit register to R.G.B channels and return new vector.
+        /// Function not in use. Using to test SIMD programming methods.
         /// </summary>
-        /// <param name="vector"></param>
+        /// <param name="vector"> src and dest 128bit register.</param>
         /// <returns></returns>
         private unsafe Vector<byte> MakeGrayScale(Vector<byte> vector)
         {

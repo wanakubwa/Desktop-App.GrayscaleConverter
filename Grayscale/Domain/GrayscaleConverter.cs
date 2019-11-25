@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Grayscale.DllMenager;
 
 namespace Grayscale.Domain
 {
@@ -33,17 +33,13 @@ namespace Grayscale.Domain
             byte[] pixels = new byte[arraySize];
             bitmap.CopyPixels(pixels, _imageStride, 0);
 
-            ThreadsMenager.ThreadsMenager threadsMenager = new ThreadsMenager.ThreadsMenager();
-            threadsMenager.ThreatsNum = 12;
-            threadsMenager.SplitByteArrayToRegisters(pixels);
-            threadsMenager.CreateThreadsArray();
+            // Creating an instance of DLL menager and setting params.
+            DllManager dllManager = new DllManager();
+            dllManager.ThreatsNum = 12;
+            dllManager.SplitByteArrayToRegisters(pixels);
+            dllManager.RunConversionProcess();
 
-            byte[] test = threadsMenager.ConvertListToOneByteArray();
-
-            //// Converting byte array to bitmapImage and return.
-            //Int32Rect rect = new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
-            //bitmap.WritePixels(rect, pixels, _imageStride, 0);
-            //returnData = ConvertWriteableBitmapToBitmapImage(bitmap);
+            byte[] test = dllManager.ConvertListToOneByteArray();
 
             Int32Rect rect = new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
             bitmap.WritePixels(rect, test, _imageStride, 0);
