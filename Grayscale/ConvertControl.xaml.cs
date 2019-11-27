@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Grayscale.Events;
 
 namespace Grayscale
 {
@@ -30,6 +31,7 @@ namespace Grayscale
         MainWindow _mainWindow;
         GrayscaleConverter _grayscaleConverter;
         DispatcherTimer _timer;
+        System.Diagnostics.Stopwatch _watch;
 
         public ConvertControl(MainWindow mainWindow)
         {
@@ -53,6 +55,8 @@ namespace Grayscale
 
             if (_mainWindow.ImageToEdit != null)
                 originalImg.Source = _mainWindow.ImageToEdit.Source;
+
+            ProgramEventsSystem.EndImageProcessingHandler += EndImageProcessing_Handler;
         }
 
         private void CheckBoxC_Checked(object sender, RoutedEventArgs e)
@@ -89,16 +93,20 @@ namespace Grayscale
             {
                 _grayscaleConverter.Image = _mainWindow.ImageToEdit;
 
-                var watch = System.Diagnostics.Stopwatch.StartNew();
+                _watch = System.Diagnostics.Stopwatch.StartNew();
 
                 _grayscaleConverter.IsAsm = _isAsm;
-                var tmp = _grayscaleConverter.ConvertToGrayscale();
-                watch.Stop();
-
-                var elapsedMs = watch.ElapsedMilliseconds;
-                editedImg.Source = tmp;
-                timeLabel.Text = elapsedMs.ToString() + " ms";
+                _grayscaleConverter.ConvertToGrayscale();
             }
+        }
+
+        private void EndImageProcessing_Handler()
+        {
+            var tmp = _grayscaleConverter.GetImageBitmap();
+            _watch.Stop();
+            var elapsedMs = _watch.ElapsedMilliseconds;
+            editedImg.Source = tmp;
+            timeLabel.Text = elapsedMs.ToString() + " ms";
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

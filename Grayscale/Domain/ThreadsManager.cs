@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GrayscaleCppManager;
+using Grayscale.Events;
 
 namespace Grayscale.Processing
 {
@@ -12,60 +13,67 @@ namespace Grayscale.Processing
     {
         bool _isAsm;
         List<Thread> _threads = new List<Thread>();
-        List<CppWorker> _cppWorkers = new List<CppWorker>();
+        static Queue<CppWorker> _cppWorkers = new Queue<CppWorker>();
         public int ThreadsNum { get; set; }
+        static readonly object _object = new object();
 
         public ThreadsManager(bool isAsm)
         {
             this._isAsm = isAsm;
+            _cppWorkers.Clear();
         }
 
-        public void InitializeTasks()
-        {
-            for(int i = 0; i< ThreadsNum; i++)
-            {
-                Thread thread = new Thread(DoCppJob);
-                _threads.Add(thread);
-            }
-        }
-
-        public void InitializeCppWorker()
+        /// <summary>
+        /// initializing queue stack with workers.
+        /// </summary>
+        public void InitializeCppWorkersStack()
         {
             for(int i = 0; i< ThreadsNum; i++)
             {
                 CppWorker cppWorker = new CppWorker(i);
                 cppWorker.IsFree = true;
-                _cppWorkers.Add(cppWorker);
+                _cppWorkers.Enqueue(cppWorker);
+            }
+        }
+
+        /// <summary>
+        /// Adding to queue free worker to enable using it againg.
+        /// </summary>
+        /// <param name="worker"> Worker to add to stack.</param>
+        static void  AddToQueue(CppWorker worker)
+        {
+            lock (_object)
+            {
+                _cppWorkers.Enqueue(worker);
             }
         }
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
-            InitializeTasks();
-
             for (int i = 0; i < pixelsListToDo.Count; i++)
             {
                 CppWorker freeWorker = null;
                 while (freeWorker == null)
                 {
-                    freeWorker = _cppWorkers.Find(x => x.IsFree == true);
+                    if (_cppWorkers.Count > 0)
+                    {
+                        freeWorker = _cppWorkers.Dequeue();
+                    }
                 }
+
                 freeWorker.SetSingleRegister(pixelsListToDo[i]);
-                freeWorker.IsFree = false;
                 ThreadPool.QueueUserWorkItem((DoCppJob), freeWorker);
-                Console.WriteLine(i);
-                //_threads[freeWorker.Index].Start(freeWorker);
             }
 
-            Thread.Sleep(2000);
+            // TODO Make events system class to call back when end.
+            ProgramEventsSystem.CallEndImageProcessingEvent();
         }
 
         private static void DoCppJob(object parameter)
         {
             CppWorker threadObject = parameter as CppWorker;
             threadObject.DoCppJob();
-            Console.WriteLine("Threed num = {0}", Thread.CurrentThread.ManagedThreadId);
-            threadObject.IsFree = true;
+            AddToQueue(threadObject);
         }
     }
 

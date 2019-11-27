@@ -94,16 +94,9 @@ namespace Grayscale.Processing
 
         public void RunConversionProcess()
         {
-            //for (int i = 0; i < _pixelsList.Count; i++)
-            //{
-            //    // Calling function from Cpp Dll.
-            //    converterCpp.MakeGrayScaleAtOneRegisterCpp(_pixelsList[i], 16);
-            //}
-
             ThreadsManager threadsManager = new ThreadsManager(IsAsm);
             threadsManager.ThreadsNum = ThreatsNum;
-            threadsManager.InitializeCppWorker();
-
+            threadsManager.InitializeCppWorkersStack();
             threadsManager.RunThreadProcess( ref _pixelsList);
         }
 

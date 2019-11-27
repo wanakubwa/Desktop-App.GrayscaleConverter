@@ -16,39 +16,43 @@ namespace Grayscale.Domain
         public Image Image { get; set; } = null;
         public bool IsAsm { set; private get; }
         private int _imageStride;
+        private WriteableBitmap _bitmap;
+        private MyProcessingData _myProcessingData = new MyProcessingData();
 
         /// <summary>
         /// Converting to bitmap and dividing to vectors.
         /// </summary>
         /// <param name="imageToEdit"></param>
-        public BitmapImage ConvertToGrayscale()
+        public void ConvertToGrayscale()
         {
-            // TODO throw exception if image== null
-
             var bitmapImage = ConvertBitmapSourceToBitmapImage();
-            var bitmap = new WriteableBitmap(bitmapImage);
-            BitmapImage returnData;
+            _bitmap = new WriteableBitmap(bitmapImage);
 
             CalculateImageStrideLength(bitmapImage);
-            int arraySize = _imageStride * bitmap.PixelHeight;
+            int arraySize = _imageStride * _bitmap.PixelHeight;
             byte[] pixels = new byte[arraySize];
-            bitmap.CopyPixels(pixels, _imageStride, 0);
+            _bitmap.CopyPixels(pixels, _imageStride, 0);
 
             // Creating an instance of DLL menager and setting params.
-            MyProcessingData myProcessingData = new MyProcessingData();
-            myProcessingData.ThreatsNum = 12;
-            myProcessingData.IsAsm = IsAsm;
-            myProcessingData.SplitByteArrayToRegisters(pixels);
-            myProcessingData.RunConversionProcess();
+            _myProcessingData.ThreatsNum = 12;
+            _myProcessingData.IsAsm = IsAsm;
+            _myProcessingData.SplitByteArrayToRegisters(pixels);
+            _myProcessingData.RunConversionProcess();
+        }
 
-            byte[] test = myProcessingData.ConvertListToOneByteArray();
+        public BitmapImage GetImageBitmap()
+        {
+            BitmapImage returnData;
 
-            Int32Rect rect = new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
-            bitmap.WritePixels(rect, test, _imageStride, 0);
-            returnData = ConvertWriteableBitmapToBitmapImage(bitmap);
+            byte[] test = _myProcessingData.ConvertListToOneByteArray();
+
+            Int32Rect rect = new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight);
+            _bitmap.WritePixels(rect, test, _imageStride, 0);
+            returnData = ConvertWriteableBitmapToBitmapImage(_bitmap);
 
             return returnData;
         }
+
         public byte MakeGrayValueForPixels(byte blue, byte green, byte red)
         {
             byte grayValue = (byte)((red + green + blue) / 3);

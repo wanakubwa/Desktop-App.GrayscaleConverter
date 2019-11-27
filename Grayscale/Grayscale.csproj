@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="Domain\GrayscaleConverter.cs" />
     <Compile Include="Domain\ThreadsManager.cs" />
+    <Compile Include="Events\ProgramEventsSystem.cs" />
     <Compile Include="SetImageControl.xaml.cs">
       <DependentUpon>SetImageControl.xaml</DependentUpon>
     </Compile>
