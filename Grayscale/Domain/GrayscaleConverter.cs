@@ -7,13 +7,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Grayscale.DllMenager;
+using Grayscale.Processing;
 
 namespace Grayscale.Domain
 {
     class GrayscaleConverter
     {
         public Image Image { get; set; } = null;
+        public bool IsAsm { set; private get; }
         private int _imageStride;
 
         /// <summary>
@@ -34,12 +35,13 @@ namespace Grayscale.Domain
             bitmap.CopyPixels(pixels, _imageStride, 0);
 
             // Creating an instance of DLL menager and setting params.
-            DllManager dllManager = new DllManager();
-            dllManager.ThreatsNum = 12;
-            dllManager.SplitByteArrayToRegisters(pixels);
-            dllManager.RunConversionProcess();
+            MyProcessingData myProcessingData = new MyProcessingData();
+            myProcessingData.ThreatsNum = 12;
+            myProcessingData.IsAsm = IsAsm;
+            myProcessingData.SplitByteArrayToRegisters(pixels);
+            myProcessingData.RunConversionProcess();
 
-            byte[] test = dllManager.ConvertListToOneByteArray();
+            byte[] test = myProcessingData.ConvertListToOneByteArray();
 
             Int32Rect rect = new Int32Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
             bitmap.WritePixels(rect, test, _imageStride, 0);

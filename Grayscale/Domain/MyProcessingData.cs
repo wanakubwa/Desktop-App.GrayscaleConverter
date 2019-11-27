@@ -8,16 +8,16 @@ using System.Numerics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
-using GrayscaleCppManager;
 
-namespace Grayscale.DllMenager
+namespace Grayscale.Processing
 {
-    class DllManager
+    class MyProcessingData
     {
         public int ThreatsNum { get; set; } = 0;
+        public bool IsAsm { get; set; }
         int _arraySize;
         int _addedElements;
-        List<Thread> _threads = new List<Thread>();
+        //List<Thread> _threads = new List<Thread>();
         List<byte[]> _pixelsList = new List<byte[]>();
 
         /// <summary>
@@ -94,15 +94,17 @@ namespace Grayscale.DllMenager
 
         public void RunConversionProcess()
         {
-            // Create instance of Cpp converter from Dll.
-            // Contains all fonction and manager.
-            GrayscaleConverterCpp converterCpp = new GrayscaleConverterCpp();
+            //for (int i = 0; i < _pixelsList.Count; i++)
+            //{
+            //    // Calling function from Cpp Dll.
+            //    converterCpp.MakeGrayScaleAtOneRegisterCpp(_pixelsList[i], 16);
+            //}
 
-            for (int i = 0; i < _pixelsList.Count; i++)
-            {
-                // Calling function from Cpp Dll.
-                converterCpp.MakeGrayScaleAtOneRegisterCpp(_pixelsList[i], 16);
-            }
+            ThreadsManager threadsManager = new ThreadsManager(IsAsm);
+            threadsManager.ThreadsNum = ThreatsNum;
+            threadsManager.InitializeCppWorker();
+
+            threadsManager.RunThreadProcess( ref _pixelsList);
         }
 
         /// <summary>

@@ -21,21 +21,12 @@ using System.Windows.Threading;
 namespace Grayscale
 {
     /// <summary>
-    /// Struct that represent each pixel value.
-    /// </summary>
-    public struct PixelColor
-    {
-        public byte Blue;
-        public byte Green;
-        public byte Red;
-        public byte Alpha;
-    }
-    /// <summary>
     /// Clas converting input source to grayscale img.
     /// </summary>
     public partial class ConvertControl : UserControl
     {
         private int _choosedThrNum;
+        private bool _isAsm = false;
         MainWindow _mainWindow;
         GrayscaleConverter _grayscaleConverter;
         DispatcherTimer _timer;
@@ -68,12 +59,14 @@ namespace Grayscale
         {
             if(checkBoxASM !=null)
                 checkBoxASM.IsChecked = false;
+            _isAsm = false;
         }
 
         private void CheckBoxASM_Checked(object sender, RoutedEventArgs e)
         {
             if(checkBoxC != null)
                 checkBoxC.IsChecked = false;
+            _isAsm = true;
         }
 
         private void ThreadsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -97,8 +90,11 @@ namespace Grayscale
                 _grayscaleConverter.Image = _mainWindow.ImageToEdit;
 
                 var watch = System.Diagnostics.Stopwatch.StartNew();
+
+                _grayscaleConverter.IsAsm = _isAsm;
                 var tmp = _grayscaleConverter.ConvertToGrayscale();
                 watch.Stop();
+
                 var elapsedMs = watch.ElapsedMilliseconds;
                 editedImg.Source = tmp;
                 timeLabel.Text = elapsedMs.ToString() + " ms";

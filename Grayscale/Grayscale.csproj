@@ -89,10 +89,11 @@
       <DependentUpon>ConvertControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Domain\GrayscaleConverter.cs" />
+    <Compile Include="Domain\ThreadsManager.cs" />
     <Compile Include="SetImageControl.xaml.cs">
       <DependentUpon>SetImageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Domain\ThreadsMenager.cs" />
+    <Compile Include="Domain\MyProcessingData.cs" />
     <Page Include="AboutUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
