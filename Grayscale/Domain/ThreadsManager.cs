@@ -12,91 +12,78 @@ namespace Grayscale.Processing
     class ThreadsManager
     {
         bool _isAsm;
+        static int _threadsCompleated = 0;
         List<Thread> _threads = new List<Thread>();
-        static Queue<CppWorker> _cppWorkers = new Queue<CppWorker>();
+
         public int ThreadsNum { get; set; }
-        static readonly object _object = new object();
+        static readonly object _padLockIndex = new object();
+        static readonly object _padLockCounter = new object();
+        static int _nextIndex = 0;
 
         public ThreadsManager(bool isAsm)
         {
             this._isAsm = isAsm;
-            _cppWorkers.Clear();
+            _nextIndex = 0;
+            _threadsCompleated = 0;
         }
 
-        /// <summary>
-        /// initializing queue stack with workers.
-        /// </summary>
-        public void InitializeCppWorkersStack()
+        private static void IncrementEndThreads()
         {
-            for(int i = 0; i< ThreadsNum; i++)
+            lock (_padLockCounter)
             {
-                CppWorker cppWorker = new CppWorker(i);
-                cppWorker.IsFree = true;
-                _cppWorkers.Enqueue(cppWorker);
+                _threadsCompleated++;
             }
         }
 
-        /// <summary>
-        /// Adding to queue free worker to enable using it againg.
-        /// </summary>
-        /// <param name="worker"> Worker to add to stack.</param>
-        static void  AddToQueue(CppWorker worker)
+        private static int GetNextIndex()
         {
-            lock (_object)
+            lock (_padLockIndex)
             {
-                _cppWorkers.Enqueue(worker);
+                _nextIndex++;
+                return _nextIndex;
             }
         }
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
-            for (int i = 0; i < pixelsListToDo.Count; i++)
+            for(int i = 0; i < ThreadsNum; i++)
             {
-                CppWorker freeWorker = null;
-                while (freeWorker == null)
-                {
-                    if (_cppWorkers.Count > 0)
-                    {
-                        freeWorker = _cppWorkers.Dequeue();
-                    }
-                }
-
-                freeWorker.SetSingleRegister(pixelsListToDo[i]);
-                ThreadPool.QueueUserWorkItem((DoCppJob), freeWorker);
+                var tmp = new Thread(DoCppJob);
+                _threads.Add(tmp);
             }
 
-            // TODO Make events system class to call back when end.
-            ProgramEventsSystem.CallEndImageProcessingEvent();
+            foreach(var element in _threads)
+            {
+                element.Start(pixelsListToDo);
+            }
+
+            while (_threadsCompleated != ThreadsNum)
+            {
+                
+            }
+            ProgramEventsSystem.CallImageProcessingClosed();
         }
 
         private static void DoCppJob(object parameter)
         {
-            CppWorker threadObject = parameter as CppWorker;
-            threadObject.DoCppJob();
-            AddToQueue(threadObject);
-        }
-    }
-
-    class CppWorker
-    {
-        private byte[] _singleRegister;
-        public bool IsFree { get; set; }
-        public int Index { get; private set; }
-        private GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
-
-        public CppWorker(int index)
-        {
-            Index = index;
+            List<byte[]> pixelList = parameter as List<byte[]>;
+            var index = GetNextIndex();
+            while(index < pixelList.Count)
+            {
+                GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
+                grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index], 16);
+                index = GetNextIndex();
+            }
+            IncrementEndThreads();
         }
 
-        public void SetSingleRegister(byte[] reg)
+        private void ThreadCompleated()
         {
-            _singleRegister = reg;
-        }
-
-        public void DoCppJob()
-        {
-            grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(_singleRegister, 16);
+            _threadsCompleated++;
+            if(_threadsCompleated == ThreadsNum)
+            {
+                ProgramEventsSystem.CallImageProcessingClosed();
+            }
         }
     }
 }

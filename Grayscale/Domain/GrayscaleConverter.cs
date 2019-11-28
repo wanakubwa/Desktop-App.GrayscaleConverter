@@ -37,6 +37,7 @@ namespace Grayscale.Domain
             _myProcessingData.ThreatsNum = 12;
             _myProcessingData.IsAsm = IsAsm;
             _myProcessingData.SplitByteArrayToRegisters(pixels);
+
             _myProcessingData.RunConversionProcess();
         }
 
@@ -53,11 +54,6 @@ namespace Grayscale.Domain
             return returnData;
         }
 
-        public byte MakeGrayValueForPixels(byte blue, byte green, byte red)
-        {
-            byte grayValue = (byte)((red + green + blue) / 3);
-            return grayValue;
-        }
         private void CalculateImageStrideLength(BitmapImage bitmap)
         {
             var width = bitmap.PixelWidth;
@@ -66,6 +62,7 @@ namespace Grayscale.Domain
             // Stride length for current image.
             _imageStride = width * ((bitmap.Format.BitsPerPixel + 7) / 8);
         }
+
         private BitmapImage ConvertWriteableBitmapToBitmapImage(WriteableBitmap wbm)
         {
             BitmapImage bmImage = new BitmapImage();

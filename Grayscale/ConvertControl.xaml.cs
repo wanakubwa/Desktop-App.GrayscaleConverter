@@ -56,7 +56,7 @@ namespace Grayscale
             if (_mainWindow.ImageToEdit != null)
                 originalImg.Source = _mainWindow.ImageToEdit.Source;
 
-            ProgramEventsSystem.EndImageProcessingHandler += EndImageProcessing_Handler;
+            ProgramEventsSystem.ImageProcessingClosed += EndImageProcessing_Handler;
         }
 
         private void CheckBoxC_Checked(object sender, RoutedEventArgs e)
