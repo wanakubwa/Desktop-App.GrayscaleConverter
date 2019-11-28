@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GrayscaleCppManager;
 using Grayscale.Events;
+using System.Diagnostics;
 
 namespace Grayscale.Processing
 {
@@ -23,6 +24,10 @@ namespace Grayscale.Processing
         public ThreadsManager(bool isAsm)
         {
             this._isAsm = isAsm;
+        }
+
+        public void SetDefaultState()
+        {
             _nextIndex = 0;
             _threadsCompleated = 0;
         }
@@ -52,7 +57,7 @@ namespace Grayscale.Processing
                 _threads.Add(tmp);
             }
 
-            foreach(var element in _threads)
+            foreach (var element in _threads)
             {
                 element.Start(pixelsListToDo);
             }
@@ -61,6 +66,7 @@ namespace Grayscale.Processing
             {
                 
             }
+
             ProgramEventsSystem.CallImageProcessingClosed();
         }
 
@@ -68,19 +74,20 @@ namespace Grayscale.Processing
         {
             List<byte[]> pixelList = parameter as List<byte[]>;
             var index = GetNextIndex();
-            while(index < pixelList.Count)
+            GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
+            while (index < pixelList.Count)
             {
-                GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
                 grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index], 16);
                 index = GetNextIndex();
             }
             IncrementEndThreads();
         }
 
-        private void ThreadCompleated()
+        private void ThreadCompleatedHandler()
         {
             _threadsCompleated++;
-            if(_threadsCompleated == ThreadsNum)
+            
+            if (_threadsCompleated == ThreadsNum)
             {
                 ProgramEventsSystem.CallImageProcessingClosed();
             }

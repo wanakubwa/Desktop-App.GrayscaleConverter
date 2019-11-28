@@ -8,11 +8,11 @@ namespace Grayscale.Events
 {
     static class ProgramEventsSystem
     {
-        public delegate void EndImageProcessingHandler();
-        public static event EndImageProcessingHandler ImageProcessingClosed;
+        public delegate void OnImageProcessingClosed();
+        public static event OnImageProcessingClosed ImageProcessingClosed;
 
-        public delegate void ThreadCompleatedHandler();
-        public static event ThreadCompleatedHandler ThreadCompleated;
+        public delegate void OnThreadCompleated();
+        public static event OnThreadCompleated ThreadCompleated;
 
         public static void CallImageProcessingClosed()
         {

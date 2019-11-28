@@ -15,6 +15,7 @@ namespace Grayscale.Domain
     {
         public Image Image { get; set; } = null;
         public bool IsAsm { set; private get; }
+        public int ThreadsNum { get; set; }
         private int _imageStride;
         private WriteableBitmap _bitmap;
         private MyProcessingData _myProcessingData = new MyProcessingData();
@@ -34,7 +35,7 @@ namespace Grayscale.Domain
             _bitmap.CopyPixels(pixels, _imageStride, 0);
 
             // Creating an instance of DLL menager and setting params.
-            _myProcessingData.ThreatsNum = 12;
+            _myProcessingData.ThreatsNum = ThreadsNum;
             _myProcessingData.IsAsm = IsAsm;
             _myProcessingData.SplitByteArrayToRegisters(pixels);
 

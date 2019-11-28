@@ -96,6 +96,7 @@ namespace Grayscale.Processing
         {
             ThreadsManager threadsManager = new ThreadsManager(IsAsm);
             threadsManager.ThreadsNum = ThreatsNum;
+            threadsManager.SetDefaultState();
             threadsManager.RunThreadProcess( ref _pixelsList);
         }
 

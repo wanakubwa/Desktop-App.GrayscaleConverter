@@ -91,7 +91,9 @@ namespace Grayscale
         {
             if(_mainWindow.ImageToEdit != null)
             {
+                _grayscaleConverter = new GrayscaleConverter();
                 _grayscaleConverter.Image = _mainWindow.ImageToEdit;
+                _grayscaleConverter.ThreadsNum = _choosedThrNum;
 
                 _watch = System.Diagnostics.Stopwatch.StartNew();
 
