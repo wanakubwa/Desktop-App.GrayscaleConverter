@@ -60,6 +60,7 @@ namespace Grayscale.Processing
             foreach (var element in _threads)
             {
                 element.Start(pixelsListToDo);
+                element.Join();
             }
 
             while (_threadsCompleated != ThreadsNum)
