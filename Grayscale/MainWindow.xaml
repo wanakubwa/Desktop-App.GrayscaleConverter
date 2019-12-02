@@ -23,8 +23,20 @@
             <ColumnDefinition Width="11*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Height="70" VerticalAlignment="Top" Background="#25232A" Grid.ColumnSpan="2">
+        <Grid Height="40" VerticalAlignment="Top" Background="#25232A" Grid.ColumnSpan="2">
             <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="Grayscale Converter" VerticalAlignment="Center" Background="#FF262626" Foreground="#BEBCC2" FontFamily="Global Sans Serif" FontSize="24"/>
+            <Button Name="CloseButton" Click="CloseButton_Click" Width="50" Background="{x:Null}" Foreground="#FFAE3714" HorizontalAlignment="Right" Margin="0,0,0,0" Height="30" VerticalAlignment="Top" FontSize="8" BorderBrush="{x:Null}" Padding="0">
+                <Button.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Button.IsMouseOver" Value="True">
+                                <Setter Property="Button.Background" Value="#FF9E1818" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <TextBlock Width="Auto" Height="Auto" Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Foreground="#FFBEBCC2"/>
+            </Button>
         </Grid>
 
 

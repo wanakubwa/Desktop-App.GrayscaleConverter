@@ -14,9 +14,9 @@ namespace CppGrayscaleCore
 		__m128i vecSrc = _mm_loadu_si128((__m128i*) &src[srcIndex]);
 
 		// Define r,g,b factors used to calculate the average.
-		const __m128i r_coef = _mm_set1_epi16((short)(0.2989*32768.0 + 0.5));  //8 coefficients - R scale factor.
-		const __m128i g_coef = _mm_set1_epi16((short)(0.5870*32768.0 + 0.5));  //8 coefficients - G scale factor.
-		const __m128i b_coef = _mm_set1_epi16((short)(0.1140*32768.0 + 0.5));  //8 coefficients - B scale factor.
+		const __m128i r_coef = _mm_set1_epi16((short)(0.2989*32768.0 + 0.5));
+		const __m128i g_coef = _mm_set1_epi16((short)(0.5870*32768.0 + 0.5));
+		const __m128i b_coef = _mm_set1_epi16((short)(0.1140*32768.0 + 0.5));
 
 		// Shuffle to configuration A0A1A2A3_R0R1R2R3_G0G1G2G3_B0B1B2B3
 		// Not revers so mask is read from left (Lo) to right (Hi). And counting from righ in srcVect (Lo).
