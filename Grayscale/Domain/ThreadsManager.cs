@@ -8,6 +8,7 @@ using GrayscaleCppManager;
 using Grayscale.Events;
 using System.Diagnostics;
 
+
 namespace Grayscale.Processing
 {
     class ThreadsManager
@@ -51,6 +52,8 @@ namespace Grayscale.Processing
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
+
+            // TODO: split into two functions for ASM and CPP.
             for(int i = 0; i < ThreadsNum; i++)
             {
                 var tmp = new Thread(DoCppJob);
@@ -75,10 +78,11 @@ namespace Grayscale.Processing
         {
             List<byte[]> pixelList = parameter as List<byte[]>;
             var index = GetNextIndex();
+
             GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
             while (index < pixelList.Count)
             {
-                grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index], 16);
+                grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index]);
                 index = GetNextIndex();
             }
             IncrementEndThreads();

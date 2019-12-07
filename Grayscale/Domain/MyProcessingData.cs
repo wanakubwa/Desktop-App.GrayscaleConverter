@@ -15,9 +15,9 @@ namespace Grayscale.Processing
     {
         public int ThreatsNum { get; set; } = 0;
         public bool IsAsm { get; set; }
+
         int _arraySize;
         int _addedElements;
-        //List<Thread> _threads = new List<Thread>();
         List<byte[]> _pixelsList = new List<byte[]>();
 
         /// <summary>

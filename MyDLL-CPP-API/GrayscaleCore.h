@@ -1,4 +1,7 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN
+// Windows Header Files
+#include <windows.h>
 #include "ManagedObject.h"
 
 // Path to header from cpp project.
@@ -17,6 +20,6 @@ namespace GrayscaleCppManager
 		// All function must be declared there but using c# data types name.
 		// I.e Entity(int^ array);
 		// int^ must be converted (to pointer to first element in array) by call conversion function declared in manager class.
-		void MakeGrayScaleAtOneRegisterCpp(array<Byte>^ src, int size);
+		void MakeGrayScaleAtOneRegisterCpp(array<Byte>^ src);
 	};
 }

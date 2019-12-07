@@ -1,8 +1,13 @@
 #pragma once
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+// Windows Header Files
+#include <windows.h>
+
 namespace GrayscaleCppManager 
 {
 	using namespace System::Runtime::InteropServices;
 	using namespace System;
+
 	/// Class using for wraping all cpp cores into one class included destructor and garbage collector finalizer.
 	/// This is tamplate can contain any class from "GrayscaleCppCore".
 	/// using also to connect c# data to cpp data t.m conatins conversion static methods.

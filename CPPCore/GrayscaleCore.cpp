@@ -4,7 +4,7 @@
 namespace CppGrayscaleCore
 {
 	// Converting one 128-bit register to grayscale and replace in source as destination. BGRA format
-	void GrayscaleConverterCpp::MakeGrayScaleAtOneRegisterCpp(unsigned char * src, int size)
+	void __cdecl GrayscaleConverterCpp::MakeGrayScaleAtOneRegisterCpp(unsigned char * src)
 	{
 		// Start index of src tab.
 		int srcIndex = 0;
@@ -57,3 +57,6 @@ namespace CppGrayscaleCore
 	}
 }
 
+int main() {
+	return 0;
+}

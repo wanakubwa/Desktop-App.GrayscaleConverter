@@ -16,6 +16,7 @@ namespace Grayscale.Domain
         public Image Image { get; set; } = null;
         public bool IsAsm { set; private get; }
         public int ThreadsNum { get; set; }
+
         private int _imageStride;
         private WriteableBitmap _bitmap;
         private MyProcessingData _myProcessingData = new MyProcessingData();
@@ -83,6 +84,7 @@ namespace Grayscale.Domain
             }
             return bmImage;
         }
+
         private BitmapImage ConvertBitmapSourceToBitmapImage()
         {
             BitmapSource bitmapSource = Image.Source as BitmapSource;

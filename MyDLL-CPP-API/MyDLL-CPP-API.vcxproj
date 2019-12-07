@@ -95,6 +95,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
+      <NoEntryPoint>false</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
