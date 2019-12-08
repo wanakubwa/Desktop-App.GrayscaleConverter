@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using GrayscaleCppManager;
 using Grayscale.Events;
 using System.Diagnostics;
-
+using System.Runtime.InteropServices;
 
 namespace Grayscale.Processing
 {
     class ThreadsManager
     {
+        [DllImport("ASMDLL.dll")]
+        public static extern void testFunctionASM(int x, int y);
+
         bool _isAsm;
         static int _threadsCompleated = 0;
         List<Thread> _threads = new List<Thread>();
@@ -52,6 +55,7 @@ namespace Grayscale.Processing
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
+            testFunctionASM(5, 5);
 
             // TODO: split into two functions for ASM and CPP.
             for(int i = 0; i < ThreadsNum; i++)

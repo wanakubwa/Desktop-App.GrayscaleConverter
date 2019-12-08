@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GrayscaleCppCore", "CPPCore
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GrayscaleCppDLL", "MyDLL-CPP-API\MyDLL-CPP-API.vcxproj", "{3C64646D-8EE4-4871-B17A-40A75029EB69}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASMDLL", "ASMDLL\ASMDLL.vcxproj", "{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,16 @@ Global
 		{3C64646D-8EE4-4871-B17A-40A75029EB69}.Release|x64.Build.0 = Release|x64
 		{3C64646D-8EE4-4871-B17A-40A75029EB69}.Release|x86.ActiveCfg = Release|Win32
 		{3C64646D-8EE4-4871-B17A-40A75029EB69}.Release|x86.Build.0 = Release|Win32
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Debug|x64.ActiveCfg = Debug|x64
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Debug|x64.Build.0 = Debug|x64
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Debug|x86.ActiveCfg = Debug|Win32
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Debug|x86.Build.0 = Debug|Win32
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Release|Any CPU.ActiveCfg = Release|Win32
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Release|x64.ActiveCfg = Release|x64
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Release|x64.Build.0 = Release|x64
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Release|x86.ActiveCfg = Release|Win32
+		{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
