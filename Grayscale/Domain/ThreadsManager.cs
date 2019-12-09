@@ -14,7 +14,7 @@ namespace Grayscale.Processing
     class ThreadsManager
     {
         [DllImport("ASMDLL.dll")]
-        public static extern void testFunctionASM(int x, int y);
+        public static unsafe extern void testFunctionASM(IntPtr ptr);
 
         bool _isAsm;
         static int _threadsCompleated = 0;
@@ -55,8 +55,6 @@ namespace Grayscale.Processing
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
-            testFunctionASM(5, 5);
-
             // TODO: split into two functions for ASM and CPP.
             for(int i = 0; i < ThreadsNum; i++)
             {
@@ -86,7 +84,19 @@ namespace Grayscale.Processing
             GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
             while (index < pixelList.Count)
             {
-                grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index]);
+                //grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index]);
+
+                // Prototype of ASM call function.
+                // TODO must be wrapped to normal calling.
+                unsafe
+                {
+                    byte[] srcArray = pixelList[index];
+                    fixed(byte* p = srcArray)
+                    {
+                        IntPtr ptr = (IntPtr)p;
+                        testFunctionASM(ptr);
+                    }
+                }
                 index = GetNextIndex();
             }
             IncrementEndThreads();

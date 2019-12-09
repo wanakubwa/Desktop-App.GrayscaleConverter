@@ -6,4 +6,4 @@
 #endif
 
 
-extern "C" DLLASM_API void testFunctionASM(int, int);
+extern "C" DLLASM_API void testFunctionASM(unsigned char *);
