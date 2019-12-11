@@ -71,7 +71,7 @@ namespace Grayscale.Processing
                 }
             }
 
-            if (_isAsm)
+            if (!_isAsm)
             {
                 // TODO: split into two functions for ASM and CPP.
                 for (int i = 0; i < ThreadsNum; i++)
