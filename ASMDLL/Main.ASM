@@ -16,6 +16,30 @@ XXXX_GGGG oword ?
 
 .CODE
 
+isAvaibleSSE PROC
+		xor eax, eax
+		cpuid
+
+		test eax, eax
+		jz NoCPUID
+		mov eax, 1
+
+		cpuid
+		test edx, 2000000h
+
+		jnz SSEAvailable
+		mov eax,0
+		ret
+
+		NoCPUID:
+		mov eax, 0
+		ret
+
+		SSEAvailable:
+		mov eax,1
+		ret
+isAvaibleSSE ENDP
+
 doRegisterGrayASM PROC
 
 ; Load input pointer to array to a register as values.

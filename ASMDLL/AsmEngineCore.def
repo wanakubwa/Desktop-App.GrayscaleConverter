@@ -1,2 +1,3 @@
 LIBRARY   AsmEngineCore
 EXPORTS	doRegisterGrayASM
+EXPORTS isAvaibleSSE

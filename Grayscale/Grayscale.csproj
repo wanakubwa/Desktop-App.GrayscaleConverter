@@ -110,6 +110,7 @@
     <Compile Include="ConvertControl.xaml.cs">
       <DependentUpon>ConvertControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomExceptions\NotSSEAvaibleException.cs" />
     <Compile Include="Domain\GrayscaleConverter.cs" />
     <Compile Include="Domain\ThreadsManager.cs" />
     <Compile Include="Events\ProgramEventsSystem.cs" />

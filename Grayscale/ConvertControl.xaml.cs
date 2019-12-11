@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Grayscale.Events;
 using Microsoft.Win32;
+using Grayscale.CustomExceptions;
 
 namespace Grayscale
 {
@@ -99,7 +100,16 @@ namespace Grayscale
                 _watch = System.Diagnostics.Stopwatch.StartNew();
 
                 _grayscaleConverter.IsAsm = _isAsm;
-                _grayscaleConverter.ConvertToGrayscale();
+
+                try
+                {
+                    _grayscaleConverter.ConvertToGrayscale();
+                }
+                catch(NotSSEAvaibleException ex)
+                {
+                    _watch.Stop();
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 

@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 
 // Include cpp dll functions.
 using GrayscaleCppManager;
+using Grayscale.CustomExceptions;
 
 namespace Grayscale.Processing
 {
@@ -17,6 +18,9 @@ namespace Grayscale.Processing
     {
         [DllImport("ASMDLL.dll")]
         public static unsafe extern void doRegisterGrayASM(IntPtr ptr);
+
+        [DllImport("ASMDLL.dll")]
+        public static extern int isAvaibleSSE();
 
         bool _isAsm;
         static int _threadsCompleated = 0;
@@ -58,6 +62,12 @@ namespace Grayscale.Processing
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
+            // Check that SSE inctructions are avaible.
+            if(isAvaibleSSE() != 1)
+            {
+                throw new NotSSEAvaibleException("Thre is no SSE instructions in your CPU!");
+            }
+
             // Initialize pointers list.
             foreach(var element in pixelsListToDo)
             {

@@ -6,3 +6,4 @@
 #endif
 
 extern "C" DLLASM_API void doRegisterGrayASM(unsigned char *);
+extern "C" DLLASM_API int isAvaibleSSE();
