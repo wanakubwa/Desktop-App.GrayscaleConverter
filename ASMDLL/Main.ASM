@@ -22,7 +22,7 @@ doRegisterGrayASM PROC
 movdqu xmm1, [RCX]
 
 ; Save values of 128-bit register as variable.
-movdqa [oword ptr inputRegister], xmm1
+;movdqa [oword ptr inputRegister], xmm1
 
 ; Load variable from reserved memory data to 128-bit register.
 movdqa xmm2, XMMWORD PTR [shuffleMask]

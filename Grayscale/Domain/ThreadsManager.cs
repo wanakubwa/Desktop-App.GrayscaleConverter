@@ -20,6 +20,7 @@ namespace Grayscale.Processing
 
         bool _isAsm;
         static int _threadsCompleated = 0;
+        List<IntPtr> _pointers = new List<IntPtr>();
         List<Thread> _threads = new List<Thread>();
 
         public int ThreadsNum { get; set; }
@@ -57,6 +58,19 @@ namespace Grayscale.Processing
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
+            // Initialize pointers list.
+            foreach(var element in pixelsListToDo)
+            {
+                unsafe
+                {
+                    fixed (byte* p = element)
+                    {
+                        IntPtr ptr = (IntPtr)p;
+                        _pointers.Add(ptr);
+                    }
+                }
+            }
+
             if (_isAsm)
             {
                 // TODO: split into two functions for ASM and CPP.
@@ -64,6 +78,12 @@ namespace Grayscale.Processing
                 {
                     var tmp = new Thread(DoCppJob);
                     _threads.Add(tmp);
+                }
+
+                foreach (var element in _threads)
+                {
+                    element.Start(pixelsListToDo);
+                    element.Join();
                 }
             }
             else
@@ -74,15 +94,14 @@ namespace Grayscale.Processing
                     var tmp = new Thread(DoAsmJob);
                     _threads.Add(tmp);
                 }
+
+                foreach (var element in _threads)
+                {
+                    element.Start(_pointers);
+                    element.Join();
+                }
             }
-
-
-            foreach (var element in _threads)
-            {
-                element.Start(pixelsListToDo);
-                element.Join();
-            }
-
+           
             while (_threadsCompleated != ThreadsNum)
             {
                 
@@ -108,21 +127,12 @@ namespace Grayscale.Processing
 
         private static void DoAsmJob(object parameter)
         {
-            List<byte[]> pixelList = parameter as List<byte[]>;
+            List<IntPtr> pixelList = parameter as List<IntPtr>;
             var index = GetNextIndex();
 
             while (index < pixelList.Count)
             {
-                // ASM call function from dll.
-                unsafe
-                {
-                    byte[] srcArray = pixelList[index];
-                    fixed (byte* p = srcArray)
-                    {
-                        IntPtr ptr = (IntPtr)p;
-                        doRegisterGrayASM(ptr);
-                    }
-                }
+                doRegisterGrayASM(pixelList[index]);
                 index = GetNextIndex();
             }
             IncrementEndThreads();
