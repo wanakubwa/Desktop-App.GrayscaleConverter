@@ -82,7 +82,7 @@ namespace Grayscale
                 CheckPathExists = true,
                 RestoreDirectory = true,
                 Multiselect = false,
-                Filter = "Image Files(*.BMP;*.JPG;*.PNG)|*.BMP;*.JPG;*.PNG",
+                Filter = "Image Files(*.JPG; *.JPEG)|*.JPG;*.JPEG",
                 DefaultExt = ".JPG"
             };
 

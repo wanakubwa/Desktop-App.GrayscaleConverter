@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GrayscaleCppManager;
 using Grayscale.Events;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+
+// Include cpp dll functions.
+using GrayscaleCppManager;
 
 namespace Grayscale.Processing
 {
     class ThreadsManager
     {
         [DllImport("ASMDLL.dll")]
-        public static unsafe extern void testFunctionASM(IntPtr ptr);
+        public static unsafe extern void doRegisterGrayASM(IntPtr ptr);
 
         bool _isAsm;
         static int _threadsCompleated = 0;
@@ -55,12 +57,25 @@ namespace Grayscale.Processing
 
         public void RunThreadProcess(ref List<byte[]> pixelsListToDo)
         {
-            // TODO: split into two functions for ASM and CPP.
-            for(int i = 0; i < ThreadsNum; i++)
+            if (_isAsm)
             {
-                var tmp = new Thread(DoCppJob);
-                _threads.Add(tmp);
+                // TODO: split into two functions for ASM and CPP.
+                for (int i = 0; i < ThreadsNum; i++)
+                {
+                    var tmp = new Thread(DoCppJob);
+                    _threads.Add(tmp);
+                }
             }
+            else
+            {
+                // TODO: split into two functions for ASM and CPP.
+                for (int i = 0; i < ThreadsNum; i++)
+                {
+                    var tmp = new Thread(DoAsmJob);
+                    _threads.Add(tmp);
+                }
+            }
+
 
             foreach (var element in _threads)
             {
@@ -84,17 +99,28 @@ namespace Grayscale.Processing
             GrayscaleConverterCpp grayscaleConverter = new GrayscaleConverterCpp();
             while (index < pixelList.Count)
             {
-                //grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index]);
+                // Cpp call function from dll.
+                grayscaleConverter.MakeGrayScaleAtOneRegisterCpp(pixelList[index]);
+                index = GetNextIndex();
+            }
+            IncrementEndThreads();
+        }
 
-                // Prototype of ASM call function.
-                // TODO must be wrapped to normal calling.
+        private static void DoAsmJob(object parameter)
+        {
+            List<byte[]> pixelList = parameter as List<byte[]>;
+            var index = GetNextIndex();
+
+            while (index < pixelList.Count)
+            {
+                // ASM call function from dll.
                 unsafe
                 {
                     byte[] srcArray = pixelList[index];
-                    fixed(byte* p = srcArray)
+                    fixed (byte* p = srcArray)
                     {
                         IntPtr ptr = (IntPtr)p;
-                        testFunctionASM(ptr);
+                        doRegisterGrayASM(ptr);
                     }
                 }
                 index = GetNextIndex();

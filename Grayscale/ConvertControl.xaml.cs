@@ -18,6 +18,7 @@ using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Grayscale.Events;
+using Microsoft.Win32;
 
 namespace Grayscale
 {
@@ -106,6 +107,7 @@ namespace Grayscale
         {
             var tmp = _grayscaleConverter.GetImageBitmap();
             _watch.Stop();
+
             var elapsedMs = _watch.ElapsedMilliseconds;
             editedImg.Source = tmp;
             timeLabel.Text = elapsedMs.ToString() + " ms";
@@ -113,7 +115,20 @@ namespace Grayscale
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if(editedImg.Source != null)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Image file (*.jpeg)|*.jpeg|Image file (*.jpg)|*.jpg";
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    String filePath = saveFileDialog.FileName;
 
+                    var encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create((BitmapSource)editedImg.Source));
+                    using (FileStream stream = new FileStream(filePath, FileMode.Create))
+                        encoder.Save(stream);
+                }
+            }
         }
     }
 }

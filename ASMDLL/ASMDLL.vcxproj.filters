@@ -20,7 +20,7 @@
     </MASM>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ASMDLL.def">
+    <None Include="AsmEngineCore.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

@@ -5,5 +5,4 @@
 #define DLLASM_API __declspec(dllimport)
 #endif
 
-
-extern "C" DLLASM_API void testFunctionASM(unsigned char *);
+extern "C" DLLASM_API void doRegisterGrayASM(unsigned char *);

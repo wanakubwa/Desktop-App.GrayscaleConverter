@@ -16,6 +16,7 @@ namespace Grayscale.Domain
         public Image Image { get; set; } = null;
         public bool IsAsm { set; private get; }
         public int ThreadsNum { get; set; }
+        public byte[] EditedImgBytes { get; private set; }
 
         private int _imageStride;
         private WriteableBitmap _bitmap;
@@ -47,10 +48,10 @@ namespace Grayscale.Domain
         {
             BitmapImage returnData;
 
-            byte[] test = _myProcessingData.ConvertListToOneByteArray();
+            EditedImgBytes = _myProcessingData.ConvertListToOneByteArray();
 
             Int32Rect rect = new Int32Rect(0, 0, _bitmap.PixelWidth, _bitmap.PixelHeight);
-            _bitmap.WritePixels(rect, test, _imageStride, 0);
+            _bitmap.WritePixels(rect, EditedImgBytes, _imageStride, 0);
             returnData = ConvertWriteableBitmapToBitmapImage(_bitmap);
 
             return returnData;

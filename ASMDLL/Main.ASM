@@ -15,11 +15,8 @@ XXXX_RRRR oword ?
 XXXX_GGGG oword ?
 
 .CODE
-; RCX - PIERWSZY PRZEKAZANY INT
-; RDX - DRUGI PRZEKAZYWANY INT
-; R8 - Trzeci Int
 
-testFunctionASM PROC
+doRegisterGrayASM PROC
 
 ; Load input pointer to array to a register as values.
 movdqu xmm1, [RCX]
@@ -80,5 +77,5 @@ pshufb xmm0, xmm8
 movdqu [RCX], xmm0
 
                 ret
-testFunctionASM ENDP
+doRegisterGrayASM ENDP
 END

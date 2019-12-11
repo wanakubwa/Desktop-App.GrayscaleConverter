@@ -109,7 +109,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ModuleDefinitionFile>ASMDLL.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>AsmEngineCore.def</ModuleDefinitionFile>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
@@ -151,7 +151,7 @@
     <MASM Include="Main.ASM" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ASMDLL.def" />
+    <None Include="AsmEngineCore.def" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

@@ -10,16 +10,7 @@
     <Grid>
         <materialDesign:TransitioningContent x:Name="MenuSliderTransition" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromLeft, Duration=0:0:0.350}">
             <StackPanel VerticalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center" Height="auto" Margin="0,0,0,0" TextWrapping="Wrap" Width="500" FontSize="18" FontFamily="Segoe UI Light" Foreground="#FFCDCBCF">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pellentesque urna ut nisl efficitur scelerisque. 
-                    Proin molestie malesuada mattis. Aliquam sed tortor non nibh dapibus ultrices. 
-                    Etiam vitae mauris nec diam porttitor lacinia. Donec ac rutrum mi. 
-                    Praesent turpis leo, vulputate eget vestibulum quis, porttitor id sem. 
-                    Duis commodo tellus neque, sed elementum diam consectetur at. 
-                    Pellentesque vitae elit ipsum. In vestibulum ante dolor, sed dapibus felis auctor id. Proin eleifend egestas quam quis tincidunt. 
-                    Donec consectetur sollicitudin magna, id rutrum tellus venenatis quis. Pellentesque sed ultricies turpis, at tincidunt libero. 
-                    Suspendisse ex mauris, fermentum sagittis tempus sed, maximus nec justo.
-                </TextBlock>
+                <TextBlock HorizontalAlignment="Center" Height="auto" Margin="0,0,0,0" TextWrapping="Wrap" Width="500" FontSize="20" FontFamily="Segoe UI Light" Foreground="#FFCDCBCF" TextAlignment="Justify" LineHeight="6"><Run Text="Program służy do konwersji obraz"/><Run Text="u"/><Run Text=" na skalę szarości. Możliwe jest wprowadzenie obrazów o rozszerzeniu (JPG lub JPEG) nie zachowujących wartości kanału alfa. Program posiada możliwość prównania czasu wykonania obliczeń translacji palety kolorow zapisanych przy zastosowaniu instrukcji wektorowych SSE (128-bit)."/><LineBreak/><Run Text="Wykorzystany algorytm:"/><LineBreak/><Run FontFamily="Consolas" Text="f(x) = Red * 0.2989 + Blue * 0.1140 + Green * "/><Run FontFamily="Consolas" Text="0.5870"/><LineBreak/><Run Text="gdzie x oznacza wartość w skali szarości."/></TextBlock>
                 <TextBlock HorizontalAlignment="Right" Text="Fabian Berda" Height="auto" FontFamily="Segoe UI Semilight" FontSize="22" Margin="0,0,15,0" RenderTransformOrigin="0.513,0.487" Foreground="#FFCDCBCF"/>
             </StackPanel>
         </materialDesign:TransitioningContent>
