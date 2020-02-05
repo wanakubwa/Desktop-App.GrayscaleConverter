@@ -186,7 +186,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyDLL-CPP-API\MyDLL-CPP-API.vcxproj">
+    <ProjectReference Include="..\CppManagerDll\CppManagerDll.vcxproj">
       <Project>{3c64646d-8ee4-4871-b17a-40a75029eb69}</Project>
       <Name>GrayscaleCppDLL</Name>
     </ProjectReference>

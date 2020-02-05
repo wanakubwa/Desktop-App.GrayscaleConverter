@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grayscale", "Grayscale\Grayscale.csproj", "{0C107658-1C96-4E1D-9101-CC098B668BE5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GrayscaleCppCore", "CPPCore\CPPCore.vcxproj", "{37E72795-99DB-4B82-AC2A-4EAC723DBBCE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GrayscaleCppCore", "CppCore\CppCore.vcxproj", "{37E72795-99DB-4B82-AC2A-4EAC723DBBCE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GrayscaleCppDLL", "MyDLL-CPP-API\MyDLL-CPP-API.vcxproj", "{3C64646D-8EE4-4871-B17A-40A75029EB69}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GrayscaleCppDLL", "CppManagerDll\CppManagerDll.vcxproj", "{3C64646D-8EE4-4871-B17A-40A75029EB69}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASMDLL", "ASMDLL\ASMDLL.vcxproj", "{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ASMDLL", "AsmCoreDll\AsmCoreDll.vcxproj", "{95AE38F8-B9CD-48D6-9C7A-DE5B9EF89922}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

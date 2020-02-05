@@ -16,10 +16,10 @@ namespace Grayscale.Processing
 {
     class ThreadsManager
     {
-        [DllImport("ASMDLL.dll")]
+        [DllImport("AsmDll.dll")]
         public static unsafe extern void doRegisterGrayASM(IntPtr ptr);
 
-        [DllImport("ASMDLL.dll")]
+        [DllImport("AsmDll.dll")]
         public static extern int isAvaibleSSE();
 
         bool _isAsm;
